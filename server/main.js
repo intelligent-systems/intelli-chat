@@ -13,7 +13,7 @@ var mime = require('mime');
 var randomcolor = require("just.randomcolor");
 
 var users = [];
-var text = "";
+var db = [];
 
 var color = new randomcolor({ r: [0, 200], g: [0, 200], b: [0, 200], a: [0.05, 0.05] });
 
@@ -49,9 +49,9 @@ server.sockets.on("connection", function(socket) {
 	onUserConnected(socket);
 
 	socket.on("message", function(msg) {
-		msg = nl2br(msg);
-		var line = '<p class="user message" style="background-color: ' + socket.color_rgba + '">[' + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + '] <span style="color: ' + socket.color + '">' + socket.handshake.address.address +  '</span>: ' + msg + '</p>' + "\n";
-		text += line;
+//		var line = '<p class="user message" style="background-color: ' + socket.color_rgba + '">[' + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + '] <span style="color: ' + socket.color + '">' + socket.handshake.address.address +  '</span>: ' + msg + '</p>' + "\n";
+//		text += line;
+		var line = addMessage(msg, socket);
 
 		users.forEach(function(user) {
 			user.emit("message", line);
@@ -63,14 +63,22 @@ server.sockets.on("connection", function(socket) {
 	});
 });
 
+function addMessage(text, user) {
+	text = nl2br(text);
+	var line = {type: 'msg', msg: text, user: user.handshake.address.address, color: user.color, color_rgba: user.color_rgba, timestamp: Math.round(new Date().getTime() / 1000)};
+	db.push(line);
+	
+	return JSON.stringify(line);
+}
+
 function onUserConnected(socket) {
 	socket.color = color.refresh().toHex().toCSS();
 	socket.color_rgba = color.toRGBA().toCSS();
 	users.push(socket);
-	socket.emit("message", text);
+	socket.emit("message", JSON.stringify(db));
 
-	line = '<p class="system message">[' + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + '] User <span style="color: ' + socket.color + '">' + socket.handshake.address.address + '</span> has connected.</p>' + "\n";
-	text += line;
+	var msg = 'User <span style="color: ' + socket.color + '">' + socket.handshake.address.address + '</span> has connected.';
+	var line = addMessage(msg, socket);
 
 	users.forEach(function(user) {
 		user.emit("message", line);
@@ -80,8 +88,8 @@ function onUserConnected(socket) {
 function onUserDisconnected(socket) {
 	delete users[users.indexOf(socket)];
 
-	line = '<p class="system message">[' + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + '] User <span style="color: ' + socket.color + '">' + socket.handshake.address.address + '</span> has disconnected.</p>' + "\n";
-	text += line;
+	var msg = 'User <span style="color: ' + socket.color + '">' + socket.handshake.address.address + '</span> has disconnected.';
+	var line = addMessage(msg, socket);
 
 	users.forEach(function(user) {
 		user.emit("message", line);
