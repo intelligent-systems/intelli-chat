@@ -1,5 +1,6 @@
 var sio = require("socket.io");
-var user = require("./models/chat.user");
+var room = require("./chat.room");
+var user = require("./chat.user");
 
 function ChatServer(server, name) {
 	var server = server;
@@ -11,8 +12,16 @@ function ChatServer(server, name) {
 	var instance = sio.listen(server);
 
 	instance.sockets.on("connection", function(socket) {
-		users.push(new user.ChatUser(socket));
+		u = new ChatUser(socket);
+		users.push(u);
 	});
 }
 
+ChatServer.prototype.createRoom = function(user) {
+	r = new room.ChatRoom(user);
+}
+
+/**
+ * @exports ChatServer
+ */
 module.exports = ChatServer;
