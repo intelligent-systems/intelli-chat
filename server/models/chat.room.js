@@ -1,6 +1,5 @@
 var http = require('http'),
 	server = require("socket.io");
-	config = require('./config/config.js');
 
 function ChatRoom(user, server) {
 	var owner = null;

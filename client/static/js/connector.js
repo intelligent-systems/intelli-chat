@@ -1,5 +1,4 @@
-//var socket = io.connect("ws://intellisys.info:1337");
-var socket = io.connect(window.location.origin);
+var socket = io.connect('<%= cfg.server_address %>');
 var sound = null;
 var tab_focus = true;
 var title = false;

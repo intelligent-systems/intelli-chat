@@ -18,7 +18,7 @@ function ChatServer(server, name) {
 }
 
 ChatServer.prototype.createRoom = function(user) {
-	r = new room.ChatRoom(user);
+	r = new room.ChatRoom(user, this);
 }
 
 /**
