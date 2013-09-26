@@ -10,6 +10,7 @@ function ChatServer(server, name) {
 	var users = [];
 
 	var instance = sio.listen(server);
+	
 
 	instance.sockets.on("connection", function(socket) {
 		u = new ChatUser(socket);

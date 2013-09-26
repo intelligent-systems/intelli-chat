@@ -2,11 +2,15 @@ var http = require("http");
 var http = require("http");
 var path = require("path");
 var express = require("express");
+var ejs = require("ejs");
 
 var app = express();
 
-app.engine('html', require('ejs').renderFile);
-app.engine('js', require('ejs').renderFile);
+ejs.open = '{{';
+ejs.close = '}}';
+
+app.set("views", path.join(__dirname, "views"));
+app.engine(".ejs", ejs.renderFile);
 
 var config = require("./config/config")(app);
 var routes = require("./routes/routes")(app);
