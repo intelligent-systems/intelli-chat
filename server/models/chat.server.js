@@ -3,25 +3,48 @@ var room = require("./chat.room");
 var user = require("./chat.user");
 
 function ChatServer(server, name) {
-	var server = server;
-	var name = name;
+	var self = this;
 
-	var rooms = [];
-	var users = [];
+	this.server = server;
+	this.name = name;
 
-	var instance = sio.listen(server);
+	this.rooms = [];
+	this.users = [];
+
+	this.instance = sio.listen(server);
 	
 
-	instance.sockets.on("connection", function(socket) {
-		u = new ChatUser(socket);
-		users.push(u);
+	this.instance.sockets.on("connection", function(socket) {
+		var u = new user(socket);
+		self.users.push(u);
+
+		socket.on("message", function(msg) {
+			
+		});
+
+		socket.on("disconnect", function() {
+			self.disconnectUser(u);
+		});
 	});
-}
 
-ChatServer.prototype.createRoom = function(user) {
-	r = new room.ChatRoom(user, this);
-}
+	function createRoom(user) {
+		r = new room(user, sel);
+	}
+	this.createRoom = createRoom;
 
+	function disconnectUser(user) {
+		if(null == user || undefined == user)
+			return;
+
+		self.rooms.forEach(function(room) {
+			room.disconnectUser(user);
+		});
+
+		delete self.users[self.users.indexOf(user)];
+	}
+	this.disconnectUser = disconnectUser;
+
+}
 /**
  * @exports ChatServer
  */
