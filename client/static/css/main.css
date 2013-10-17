@@ -1,0 +1,50 @@
+body
+{
+	margin: 0;
+	font-family: "Lato", Helvetica, Arial, sans-serif;
+}
+
+header
+{
+	padding: 1em;
+	color: white;
+	background-color: #304050;
+}
+
+header a#logo
+{
+	font-weight: 400;
+	font-size: 1.4em;
+}
+
+header a
+{
+	color: white;
+	text-decoration: none;
+}
+
+header a:hover
+{
+	color: #0ac;
+	text-decoration: none;
+}
+
+header nav {}
+
+header nav > ul
+{
+	margin: 0;
+	margin-top: 0.2em;
+	width: 80%;
+	float: right;
+	list-style: none;
+}
+
+header nav > ul > li
+{
+	display: inline-block;
+	margin: 0 1em;
+	float: left;
+	font-weight: 300;
+	font-size: 1.2em;
+}

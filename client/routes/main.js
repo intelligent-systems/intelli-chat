@@ -13,4 +13,12 @@ module.exports = function (app) {
 			cfg: cfg
 		});
 	});
+
+	app.get("/login.html", function(req, res) {
+		res.header("Content-type", "text/html; charset=utf-8");
+
+		res.render("login.ejs", {
+			
+		});
+	});
 }
