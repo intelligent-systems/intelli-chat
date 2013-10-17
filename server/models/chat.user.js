@@ -11,7 +11,7 @@ function ChatUser(socket) {
 	this.isMe = isMe;
 
 	function signIn(email, password) {	
-		DbUser.findOne("email": email, "password": password).select("displayname").exec(function(err, doc) {
+		DbUser.findOne({ "email": email, "password": password }).select("displayname").exec(function(err, doc) {
 			console.log(doc.displayname);
 		});	
 	}
