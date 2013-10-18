@@ -1,5 +1,6 @@
-var mongoose = require("mongoose")
-	.connect("mongodb://localhost/intelli-chat");
+var app = require("./../../main.js").app;
+
+var mongoose = require("mongoose").connect(app.get('mongodb_connection_string'));
 
 var schema = new mongoose.Schema({
 	id: 'number',

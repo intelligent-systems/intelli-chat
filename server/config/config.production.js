@@ -3,5 +3,7 @@ cfg.port = 80;
 
 // App Specific settings
 module.exports = function(app) {
-	//app.configure('development').set();	
+	app.configure('production', function() {
+		app.set('mongodb_connection_string', 'mongodb://localhost/intelli-chat');	
+	});
 }

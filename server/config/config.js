@@ -4,7 +4,7 @@ var path = require("path");
 // Global and general configuration settings
 global.cfg = {};
 
-cfg.environment = "development";
+cfg.environment = process.env.NODE_ENV || "development";
 cfg.port = 1337;
 
 cfg.server_name = "Intelligent Systems Chat Server";
